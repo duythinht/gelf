@@ -7,47 +7,53 @@ Because of performance, I recommender to build your own TCP or UDP connection to
    
 #### Create message JSON
 
-    func main() {
-      message := gelf.Create("Short message content")
-                 .SetTimestamp(time.Now().Unix())
-                 .SetFullMessage("This is full message")
-                 .SetLevel(3)
-                 .SetHost("chat Server")
-                 .ToJSON()
-    }
+```go
+func main() {
+  message := gelf.Create("Short message content")
+              .SetTimestamp(time.Now().Unix())
+              .SetFullMessage("This is full message")
+              .SetLevel(3)
+              .SetHost("chat Server")
+              .ToJSON()
+}
+```
 
 
 #### Zip message
 
-    import "github.com/duythinht/gelf/chunk"
+```go
+import "github.com/duythinht/gelf/chunk"
 
-    func main() {
-      // message := ... # JSON message
-      buffer := chunk.ZipMessage(message)
-    }
+func main() {
+  // message := ... # JSON message
+  buffer := chunk.ZipMessage(message)
+}
+```
 
 
 #### Chunking message
+```go
+import "github.com/duythinht/gelf/chunk"
 
-    import "github.com/duythinht/gelf/chunk"
-
-    func main() {
-      // ZippedMessage := ... # type []byte
-      if len(ZippedMessage) > MaxChunkSize) {
-        buffers := chunk.GetGelfChunks(ZippedMessage, MaxChunkSize)
-      }
-    }
+func main() {
+  // ZippedMessage := ... # type []byte
+  if len(ZippedMessage) > MaxChunkSize) {
+    buffers := chunk.GetGelfChunks(ZippedMessage, MaxChunkSize)
+  }
+}
+```
 
 #### BTW, I offer a UDP clients pool to send message to graylog (workers by goroutine):
 
+```go
+import "github.com/duythinht/gelf/client"
 
-    import "github.com/duythinht/gelf/client"
+c := client.New(client.Config{
+  GraylogHost: "10.60.6.48",
+  GraylogPort: 13000,
+})
 
-    c := client.New(client.Config{
-  	  GraylogHost: "10.60.6.48",
-      GraylogPort: 13000,
-    })
+message := gelf.Create("...").ToJSON()
 
-    message := gelf.Create("...").ToJSON()
-    
-    c.Send(message) 
+c.Send(message) 
+```

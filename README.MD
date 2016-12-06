@@ -8,7 +8,7 @@ Because of performance, I recommender to build your own TCP or UDP connection to
 #### Create message JSON
 
     func main() {
-      message := gelf.New("Short message content")
+      message := gelf.Create("Short message content")
                  .SetTimestamp(time.Now().Unix())
                  .SetFullMessage("This is full message")
                  .SetLevel(3)

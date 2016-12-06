@@ -64,7 +64,6 @@ func (g *Gelf) connect() {
 }
 
 func (g *Gelf) Send(message string) {
-	fmt.Println("Send", message)
 	buf := chunk.ZipMessage(message)
 	if len(buf) > g.config.MaxChunkSize {
 		bfs := chunk.GetGelfChunks(buf, g.config.MaxChunkSize)

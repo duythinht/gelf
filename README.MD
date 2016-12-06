@@ -47,5 +47,7 @@ Because of performance, I recommender to build your own TCP or UDP connection to
   	  GraylogHost: "10.60.6.48",
       GraylogPort: 13000,
     })
+
+    message := gelf.Create("...").ToJSON()
     
-    c.Send("This is test message, auto zipping, auto chunking") 
+    c.Send(message) 

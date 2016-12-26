@@ -63,6 +63,10 @@ func (g *Gelf) connect() {
 	g.pool = p.NewUDPPool(address, g.config.WorkerNumber)
 }
 
+func (g *Gelf) Close() {
+	g.pool.Close()
+}
+
 func (g *Gelf) Send(message string) {
 	buf := chunk.ZipMessage(message)
 	if len(buf) > g.config.MaxChunkSize {

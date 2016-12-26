@@ -43,6 +43,7 @@ func worker(id int, address string, done chan bool, buffers <-chan []byte) {
 			break
 		}
 	}
+
 	done <- true
 }
 
@@ -64,4 +65,8 @@ func NewUDPPool(address string, workerNumber int) *UDPPool {
 
 func (p *UDPPool) Fire(buffer []byte) {
 	p.buffers <- buffer
+}
+
+func (p *UDPPool) Close() {
+	close(p.buffers)
 }
